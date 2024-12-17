@@ -1,49 +1,42 @@
 class Particle {
   constructor(position) {
     this.position = position.copy();
-    this.velocity = p5.Vector.random2D().mult(random(3, 6));
-    this.acceleration = createVector(0, 0.2);
-    this.lifespan = 255;
+    this.velocity = createVector(random(-3, 3), random(3, 6));
+    this.acceleration = createVector(0, 0.2); // 중력
     this.r = random(4, 8);
-    this.isStar = false; 
-    this.bounceCount = 0; 
-  }
-
-  applyGravity() {
-    this.velocity.add(this.acceleration);
+    this.bounceCount = 0; // 바닥 튕김 횟수
+    this.isStar = false; // 별 변형 여부
   }
 
   update() {
-    this.position.add(this.velocity);
+    if (!this.isStar) {
+      this.velocity.add(this.acceleration);
+      this.position.add(this.velocity);
 
-    
-    if (this.position.y >= height - 50) {
-      this.position.y = height - 50;
-      this.velocity.y *= -0.5;
-      this.velocity.x *= 0.7; 
-      this.bounceCount++;
+      // 바닥에 닿으면 튕기기
+      if (this.position.y >= height - 50) {
+        this.position.y = height - 50;
+        this.velocity.y *= -0.5; // 튕김 효과
+        this.velocity.x *= 0.7; // 마찰 효과
+        this.bounceCount++;
 
-      if (this.bounceCount > 1) { 
-        this.isStar = true;
-        this.velocity.mult(0); 
+        // 두 번 튕기면 별로 변환
+        if (this.bounceCount > 1) {
+          this.isStar = true;
+          staticStars.push(this);
+        }
       }
-    }
-
-
-    if (this.position.x < 50 || this.position.x > width - 50) {
-      this.lifespan = 0;
     }
   }
 
   display() {
     if (this.isStar) {
-      fill(255, 215, 0, 200); 
-      stroke(255, 200);
-      strokeWeight(1);
-      this.drawStar(this.position.x, this.position.y, 8, 15, 5);
+      fill(255, 215, 0);
+      stroke(255);
+      this.drawStar(this.position.x, this.position.y, 8, 12, 5);
     } else {
       noStroke();
-      fill(random(200, 255), random(100, 255), random(100, 200), this.lifespan);
+      fill(255, 100, 100, 150);
       ellipse(this.position.x, this.position.y, this.r * 2);
     }
   }
@@ -62,9 +55,10 @@ class Particle {
     }
     endShape(CLOSE);
   }
-
-  isDead() {
-    return this.lifespan <= 0;
-  }
 }
+
+
+
+
+
 

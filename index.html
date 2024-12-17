@@ -3,26 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Cue Ball Game</title>
+    <title>Interactive Cue Ball</title>
 
-   
+    <!-- p5.js 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
 
-  
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- 스타일 -->
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
   </head>
   <body>
     <main>
-  
-      <h1>Interactive Cue Ball Game</h1>
+      <h1>Interactive Cue Ball with Particles</h1>
     </main>
-
-  
     <script src="sketch.js"></script>
     <script src="cueBall.js"></script>
-    <script src="particleSystem.js"></script>
     <script src="particle.js"></script>
+    <script src="particleSystem.js"></script>
   </body>
 </html>
+
+
 
