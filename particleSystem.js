@@ -2,7 +2,7 @@ class ParticleSystem {
   constructor(position) {
     this.origin = position.copy();
     this.particles = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 10; i++) {
       this.particles.push(new Particle(this.origin));
     }
   }
@@ -12,9 +12,7 @@ class ParticleSystem {
       let p = this.particles[i];
       p.update();
       p.display();
-      if (p.isStar) {
-        this.particles.splice(i, 1);
-      }
+      if (p.isStar) this.particles.splice(i, 1);
     }
   }
 }

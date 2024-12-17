@@ -1,6 +1,6 @@
 let cueBall;
 let particleSystems = [];
-let staticStars = [];
+let staticStars = []; 
 let power = 0;
 let direction;
 
@@ -13,11 +13,8 @@ function draw() {
   background(0, 150, 0);
 
 
-  noFill();
-  stroke(255);
-  rect(50, 50, width - 100, height - 100);
+  drawBoundary();
 
- 
   if (mouseIsPressed) {
     stroke(255, 0, 0);
     line(cueBall.position.x, cueBall.position.y, mouseX, mouseY);
@@ -27,23 +24,18 @@ function draw() {
   cueBall.update();
   cueBall.display();
 
-
   for (let ps of particleSystems) {
     ps.run();
   }
 
- 
+
   for (let star of staticStars) {
     star.update();
     star.display();
   }
 
- 
-  fill(255, 0, 0);
-  rect(20, height - power - 20, 20, power);
-  fill(255);
-  textAlign(CENTER, CENTER);
-  text("Power", 30, height - 50);
+
+  drawPowerGauge();
 }
 
 function mousePressed() {
@@ -61,6 +53,20 @@ function mouseReleased() {
 
   cueBall.shoot(direction.mult(power * 0.2));
   power = 0;
+}
+
+function drawBoundary() {
+  noFill();
+  stroke(255);
+  rect(50, 50, width - 100, height - 100);
+}
+
+function drawPowerGauge() {
+  fill(255, 0, 0);
+  rect(20, height - power - 60, 20, power);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text("Power", 30, height - 40);
 }
 
 

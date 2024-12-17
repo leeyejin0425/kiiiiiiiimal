@@ -3,14 +3,13 @@ class CueBall {
     this.position = createVector(x, y);
     this.r = 20;
     this.velocity = createVector(0, 0);
-    this.trail = [];
+    this.trail = []; 
   }
 
   update() {
     this.position.add(this.velocity);
-    this.velocity.mult(0.98); 
+    this.velocity.mult(0.98);
 
-  
     if (this.position.x - this.r < 50 || this.position.x + this.r > width - 50) {
       this.velocity.x *= -1;
       this.emitParticles();
@@ -20,26 +19,24 @@ class CueBall {
       this.emitParticles();
     }
 
-  
+    this.updateTrail();
+  }
+
+  updateTrail() {
     this.trail.push(this.position.copy());
-    if (this.trail.length > 50) {
-      this.trail.shift();
-    }
+    if (this.trail.length > 50) this.trail.shift();
   }
 
   display() {
-  
+   
     noFill();
-    stroke(255, 100, 100, 100);
+    stroke(255, 100);
     strokeWeight(2);
-    for (let i = 0; i < this.trail.length; i++) {
-      let pos = this.trail[i];
-      let alpha = map(i, 0, this.trail.length, 0, 255);
-      stroke(255, alpha);
-      ellipse(pos.x, pos.y, this.r * 1.5 - i * 0.05);
+    for (let pos of this.trail) {
+      ellipse(pos.x, pos.y, this.r);
     }
 
-   
+  
     fill(255);
     noStroke();
     ellipse(this.position.x, this.position.y, this.r * 2);
@@ -50,10 +47,10 @@ class CueBall {
   }
 
   emitParticles() {
-    let ps = new ParticleSystem(this.position);
-    particleSystems.push(ps);
+    particleSystems.push(new ParticleSystem(this.position));
   }
 }
+
 
 
 
