@@ -8,9 +8,9 @@ class CueBall {
 
   update() {
     this.position.add(this.velocity);
-    this.velocity.mult(0.98); // 감속
+    this.velocity.mult(0.98); 
 
-    // 경계 충돌 시 파티클 방출
+  
     if (this.position.x - this.r < 50 || this.position.x + this.r > width - 50) {
       this.velocity.x *= -1;
       this.emitParticles();
@@ -20,7 +20,7 @@ class CueBall {
       this.emitParticles();
     }
 
-    // 잔상 업데이트
+  
     this.trail.push(this.position.copy());
     if (this.trail.length > 50) {
       this.trail.shift();
@@ -28,7 +28,7 @@ class CueBall {
   }
 
   display() {
-    // 잔상 그리기
+  
     noFill();
     stroke(255, 100, 100, 100);
     strokeWeight(2);
@@ -39,7 +39,7 @@ class CueBall {
       ellipse(pos.x, pos.y, this.r * 1.5 - i * 0.05);
     }
 
-    // 큐볼 그리기
+   
     fill(255);
     noStroke();
     ellipse(this.position.x, this.position.y, this.r * 2);
@@ -54,7 +54,6 @@ class CueBall {
     particleSystems.push(ps);
   }
 }
-
 
 
 

@@ -2,10 +2,10 @@ class Particle {
   constructor(position) {
     this.position = position.copy();
     this.velocity = createVector(random(-3, 3), random(3, 6));
-    this.acceleration = createVector(0, 0.2); // 중력
+    this.acceleration = createVector(0, 0.1);
     this.r = random(4, 8);
-    this.bounceCount = 0; // 바닥 튕김 횟수
-    this.isStar = false; // 별 변형 여부
+    this.bounceCount = 0;
+    this.isStar = false;
   }
 
   update() {
@@ -13,18 +13,28 @@ class Particle {
       this.velocity.add(this.acceleration);
       this.position.add(this.velocity);
 
-      // 바닥에 닿으면 튕기기
+     
       if (this.position.y >= height - 50) {
         this.position.y = height - 50;
-        this.velocity.y *= -0.5; // 튕김 효과
-        this.velocity.x *= 0.7; // 마찰 효과
+        this.velocity.y *= -0.6; 
+        this.velocity.x *= 0.7;
         this.bounceCount++;
 
-        // 두 번 튕기면 별로 변환
+       
         if (this.bounceCount > 1) {
           this.isStar = true;
           staticStars.push(this);
         }
+      }
+    } else {
+    
+      this.velocity.y += 0.1;
+      this.position.add(this.velocity);
+
+      if (this.position.y >= height - 50) {
+        this.position.y = height - 50;
+        this.velocity.y *= -0.3; 
+        this.velocity.x *= 0.5;
       }
     }
   }
@@ -36,7 +46,7 @@ class Particle {
       this.drawStar(this.position.x, this.position.y, 8, 12, 5);
     } else {
       noStroke();
-      fill(255, 100, 100, 150);
+      fill(random(200, 255), random(100, 255), random(100, 200), 200);
       ellipse(this.position.x, this.position.y, this.r * 2);
     }
   }
@@ -56,6 +66,7 @@ class Particle {
     endShape(CLOSE);
   }
 }
+
 
 
 
