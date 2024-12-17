@@ -1,44 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Cue Ball</title>
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Cue Ball</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1b1f3b, #2a2d56, #8a92d3);
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #f5d3e2;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .description {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #e0e1f5;
+    }
+    button {
+      background-color: #f9b4ed;
+      color: #333;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    button:hover {
+      background-color: #ffcef7;
+      transform: scale(1.1);
+    }
+    canvas {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Cue Ball</h1>
+    <div id="sketch-container"></div>
   
-    <style>
-      body {
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #c4acd6;
-        color: #fff;
-        font-family: Arial, sans-serif;
-      }
-      h1 {
-        text-align: center;
-      }
-      canvas {
-        display: block;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Interactive Cue Ball with Particles</h1>
-    </main>
-    <script src="sketch.js"></script>
-    <script src="cueBall.js"></script>
-    <script src="particle.js"></script>
-    <script src="particleSystem.js"></script>
-    <script src="star.js"></script>
-  </body>
+    <button onclick="restartSketch()">Restart</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+  <script src="cueBall.js"></script>
+  <script src="particle.js"></script>
+  <script src="particleSystem.js"></script>
+  <script src="star.js"></script>
+  <script src="sketch.js"></script>
+  <script>
+    function restartSketch() {
+      window.location.reload();
+    }
+  </script>
+</body>
 </html>
+
 
 
 
