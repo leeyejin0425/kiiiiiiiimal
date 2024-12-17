@@ -6,6 +6,7 @@ let direction;
 
 function setup() {
   createCanvas(600, 400);
+
   cueBall = new CueBall(width / 2, height - 80);
 }
 
