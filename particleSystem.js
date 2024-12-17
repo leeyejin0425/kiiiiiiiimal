@@ -14,12 +14,12 @@ class ParticleSystem {
       p.applyGravity();
       p.update();
       p.display();
-
       if (p.isDead()) {
         this.particles.splice(i, 1);
       }
     }
   }
 }
+
 
   

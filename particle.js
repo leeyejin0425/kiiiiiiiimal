@@ -1,39 +1,66 @@
 class Particle {
   constructor(position) {
     this.position = position.copy();
-    this.velocity = p5.Vector.random2D().mult(random(2, 4));
-    this.acceleration = createVector(0, 0.1); // 중력 효과
-    this.lifespan = 255; // 파티클 생명
-    this.r = random(2, 4);
-    this.isStatic = false; // 파티클이 멈췄는지 여부
+    this.velocity = p5.Vector.random2D().mult(random(3, 6));
+    this.acceleration = createVector(0, 0.2);
+    this.lifespan = 255;
+    this.r = random(4, 8);
+    this.isStar = false; 
+    this.bounceCount = 0; 
   }
 
   applyGravity() {
-    if (!this.isStatic) {
-      this.velocity.add(this.acceleration);
-    }
+    this.velocity.add(this.acceleration);
   }
 
   update() {
-    if (!this.isStatic) {
-      this.position.add(this.velocity);
-      // 프레임 밖으로 나간 파티클 제거
-      if (this.position.x < 50 || this.position.x > width - 50 || this.position.y > height - 50) {
-        this.lifespan = 0;
+    this.position.add(this.velocity);
+
+    
+    if (this.position.y >= height - 50) {
+      this.position.y = height - 50;
+      this.velocity.y *= -0.5;
+      this.velocity.x *= 0.7; 
+      this.bounceCount++;
+
+      if (this.bounceCount > 1) { 
+        this.isStar = true;
+        this.velocity.mult(0); 
       }
-      // 파티클이 바닥에 닿으면 멈춤
-      if (this.position.y >= height - 50) {
-        this.position.y = height - 50;
-        this.velocity.mult(0);
-        this.isStatic = true; // 바닥에 고정
-      }
+    }
+
+
+    if (this.position.x < 50 || this.position.x > width - 50) {
+      this.lifespan = 0;
     }
   }
 
   display() {
-    noStroke();
-    fill(255, 200, 0, this.lifespan);
-    ellipse(this.position.x, this.position.y, this.r * 2);
+    if (this.isStar) {
+      fill(255, 215, 0, 200); 
+      stroke(255, 200);
+      strokeWeight(1);
+      this.drawStar(this.position.x, this.position.y, 8, 15, 5);
+    } else {
+      noStroke();
+      fill(random(200, 255), random(100, 255), random(100, 200), this.lifespan);
+      ellipse(this.position.x, this.position.y, this.r * 2);
+    }
+  }
+
+  drawStar(x, y, radius1, radius2, npoints) {
+    let angle = TWO_PI / npoints;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = 0; a < TWO_PI; a += angle) {
+      let sx = x + cos(a) * radius2;
+      let sy = y + sin(a) * radius2;
+      vertex(sx, sy);
+      sx = x + cos(a + halfAngle) * radius1;
+      sy = y + sin(a + halfAngle) * radius1;
+      vertex(sx, sy);
+    }
+    endShape(CLOSE);
   }
 
   isDead() {

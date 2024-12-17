@@ -16,9 +16,8 @@ class CueBall {
     this.x += this.speed.x;
     this.y += this.speed.y;
 
-    this.speed.mult(0.98); // 감속
+    this.speed.mult(0.98);
 
-    // 벽에 부딪힐 때 파티클 생성
     if (this.x - this.r < 50 || this.x + this.r > width - 50) {
       this.speed.x *= -1;
       this.emitParticles();
@@ -28,13 +27,15 @@ class CueBall {
       this.emitParticles();
     }
 
-    // 경계값 조정
     this.x = constrain(this.x, 50 + this.r, width - 50 - this.r);
     this.y = constrain(this.y, 50 + this.r, height - 50 - this.r);
   }
 
   emitParticles() {
     let ps = new ParticleSystem(createVector(this.x, this.y));
+    for (let i = 0; i < 20; i++) {
+      ps.addParticle();
+    }
     particleSystems.push(ps);
   }
 
@@ -42,3 +43,4 @@ class CueBall {
     this.speed = p5.Vector.mult(direction, force);
   }
 }
+
