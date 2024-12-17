@@ -1,9 +1,13 @@
 let cue;
 let power = 0;
+let direction;
+
+let particleSystems = [];
 
 function setup() {
   createCanvas(600, 400);
-  cue = new CueBall(width / 2, height - 80); 
+  cue = new CueBall(width / 2, height - 80);
+  direction = createVector(0, 0);
 }
 
 function draw() {
@@ -15,17 +19,28 @@ function draw() {
   rect(50, 50, width - 100, height - 100);
 
 
+  if (mouseIsPressed) {
+    stroke(255, 0, 0);
+    line(cue.x, cue.y, mouseX, mouseY);
+  }
+
+
   cue.update();
   cue.display();
 
 
+  for (let ps of particleSystems) {
+    ps.run();
+  }
+
+ 
   fill(255, 0, 0);
-  rect(width - 50, height - power - 20, 20, power);
+  rect(20, height - power - 20, 20, power);
 
   textSize(16);
   fill(255);
-  textAlign(RIGHT, CENTER);
-  text("Power", width - 60, height - 40);
+  textAlign(CENTER, CENTER);
+  text("Power", 30, height - 40);
 }
 
 function mousePressed() {
@@ -37,56 +52,15 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-  cue.shoot(power / 10);
+  let startPos = createVector(cue.x, cue.y);
+  let endPos = createVector(mouseX, mouseY);
+  direction = p5.Vector.sub(startPos, endPos).normalize();
+
+
+  cue.shoot(direction, power / 5);
   power = 0;
-}
 
-class CueBall {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.r = 20;
-    this.xSpeed = 0;
-    this.ySpeed = 0;
-    this.trail = [];
-  }
 
-  display() {
-    noFill();
-    strokeWeight(2);
-    for (let i = 0; i < this.trail.length; i++) {
-      let alpha = map(i, 0, this.trail.length, 0, 255);
-      stroke(255, 255, 100, alpha);
-      ellipse(this.trail[i].x, this.trail[i].y, this.r * 2 - i * 0.4);
-    }
-
-    fill(255); 
-    noStroke();
-    ellipse(this.x, this.y, this.r * 2);
-  }
-
-  update() {
-    this.x += this.xSpeed;
-    this.y += this.ySpeed;
-
-    this.xSpeed *= 0.98;
-    this.ySpeed *= 0.98;
-
-    if (this.x - this.r < 50 || this.x + this.r > width - 50) {
-      this.xSpeed *= -1;
-      this.x = constrain(this.x, 50 + this.r, width - 50 - this.r);
-    }
-    if (this.y - this.r < 50 || this.y + this.r > height - 50) {
-      this.ySpeed *= -1;
-      this.y = constrain(this.y, 50 + this.r, height - 50 - this.r);
-    }
-
-    this.trail.push({ x: this.x, y: this.y });
-    if (this.trail.length > 50) this.trail.shift();
-  }
-
-  shoot(force) {
-    this.xSpeed = random(-force, force);
-    this.ySpeed = -force;
-  }
+  let ps = new ParticleSystem(createVector(cue.x, cue.y));
+  particleSystems.push(ps);
 }
